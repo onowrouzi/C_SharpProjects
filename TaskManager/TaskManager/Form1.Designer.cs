@@ -42,6 +42,9 @@
             this.timeCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.taskTimer = new System.Windows.Forms.Timer(this.components);
             this.idCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.txtProc = new System.Windows.Forms.Label();
+            this.txtCPU = new System.Windows.Forms.Label();
+            this.txtMem = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,7 +90,7 @@
             // btnEndTask
             // 
             this.btnEndTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEndTask.Location = new System.Drawing.Point(428, 403);
+            this.btnEndTask.Location = new System.Drawing.Point(428, 408);
             this.btnEndTask.Name = "btnEndTask";
             this.btnEndTask.Size = new System.Drawing.Size(75, 23);
             this.btnEndTask.TabIndex = 2;
@@ -97,9 +100,6 @@
             // 
             // taskList
             // 
-            this.taskList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.taskList.BackColor = System.Drawing.SystemColors.Window;
             this.taskList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.taskCol,
@@ -107,6 +107,7 @@
             this.memCol,
             this.timeCol,
             this.idCol});
+            this.taskList.FullRowSelect = true;
             this.taskList.GridLines = true;
             this.taskList.Location = new System.Drawing.Point(0, 27);
             this.taskList.Name = "taskList";
@@ -147,12 +148,42 @@
             this.idCol.Text = "PID";
             this.idCol.Width = 77;
             // 
+            // txtProc
+            // 
+            this.txtProc.AutoSize = true;
+            this.txtProc.Location = new System.Drawing.Point(12, 413);
+            this.txtProc.Name = "txtProc";
+            this.txtProc.Size = new System.Drawing.Size(68, 13);
+            this.txtProc.TabIndex = 4;
+            this.txtProc.Text = "Processes: 0";
+            // 
+            // txtCPU
+            // 
+            this.txtCPU.AutoSize = true;
+            this.txtCPU.Location = new System.Drawing.Point(106, 413);
+            this.txtCPU.Name = "txtCPU";
+            this.txtCPU.Size = new System.Drawing.Size(93, 13);
+            this.txtCPU.TabIndex = 5;
+            this.txtCPU.Text = "Total CPU Usage:";
+            // 
+            // txtMem
+            // 
+            this.txtMem.AutoSize = true;
+            this.txtMem.Location = new System.Drawing.Point(241, 413);
+            this.txtMem.Name = "txtMem";
+            this.txtMem.Size = new System.Drawing.Size(96, 13);
+            this.txtMem.TabIndex = 6;
+            this.txtMem.Text = "Available Memory: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(515, 438);
+            this.Controls.Add(this.txtMem);
+            this.Controls.Add(this.txtCPU);
+            this.Controls.Add(this.txtProc);
             this.Controls.Add(this.taskList);
             this.Controls.Add(this.btnEndTask);
             this.Controls.Add(this.menuStrip1);
@@ -184,6 +215,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitTaskManagerToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader idCol;
+        private System.Windows.Forms.Label txtProc;
+        private System.Windows.Forms.Label txtCPU;
+        private System.Windows.Forms.Label txtMem;
     }
 }
 

@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TaskManager
@@ -18,9 +12,13 @@ namespace TaskManager
         public Form1()
         {
             InitializeComponent();
+            taskList.DoubleBuffering(true);
         }
 
         private List<CurProcess> processes = new List<CurProcess>();
+        private PerformanceCounter cpuPC = new PerformanceCounter("Processor Information", "% Processor Time",
+                "_Total");
+        private PerformanceCounter memPC = new PerformanceCounter("Memory", "Available MBytes");
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -31,7 +29,7 @@ namespace TaskManager
         void GetAllProcesses()
         {
             List<Process> proc = Process.GetProcesses().OrderBy(p => p.ProcessName).ToList();
-
+            
             foreach (var p in proc)
             {
                 if (!processes.Exists(pr => pr.process.Id == p.Id))
@@ -95,7 +93,10 @@ namespace TaskManager
                     Console.WriteLine("Memroy Usage ERROR: " + ex.Message);
                 }
             }
-
+            
+            txtCPU.Text = "Total CPU Usage: " + (int)cpuPC.NextValue() + "%";
+            txtMem.Text = "Available Memory: " + memPC.NextValue() + "MBs";
+            txtProc.Text = "Processes: " + processes.Count;
             taskList.Update();
 
         }
@@ -146,7 +147,7 @@ namespace TaskManager
 
         public void SetCpuUsage(string text, Process p)
         {
-            var lvi = taskList.FindItemWithText(p.ProcessName);
+            var lvi = taskList.FindItemWithText(p.Id.ToString());
             if (lvi != null)
             {
                 lvi.SubItems[1].Text = text;

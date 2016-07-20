@@ -19,7 +19,7 @@ namespace TaskManager
         {
             this.process = p;
             this.form = f;
-            cpuLoad = new PerformanceCounter("Process", "% Processor Time", p.ProcessName);
+            cpuLoad = new PerformanceCounter("Process", "% Processor Time", GetProcessInstanceName(p.Id));
             GetCpuUsage();
         }
 
@@ -27,16 +27,36 @@ namespace TaskManager
         {
             try
             {
-                if (process.ProcessName != "dllhost" && process.ProcessName != "taskmgr")
-                {
-                    var cpuUsage = (int) cpuLoad.NextValue()/Environment.ProcessorCount + "%";
-                    form.SetCpuUsage(cpuUsage, process);
-                }
+                var cpuUsage = (int) cpuLoad.NextValue()/Environment.ProcessorCount + "%";
+                form.SetCpuUsage(cpuUsage, process);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("GET CPU USAGE ERROR: " + ex.Message);
             }
+        }
+
+        //Source for code below: http://stackoverflow.com/questions/113930/get-performance-counter-instance-name-w3wpxx-from-asp-net-worker-process-id/491022#491022
+        private static string GetProcessInstanceName(int pid)
+        {
+            PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
+
+            string[] instances = cat.GetInstanceNames();
+            foreach (string instance in instances)
+            {
+
+                using (PerformanceCounter cnt = new PerformanceCounter("Process",
+                     "ID Process", instance, true))
+                {
+                    int val = (int)cnt.RawValue;
+                    if (val == pid)
+                    {
+                        return instance;
+                    }
+                }
+            }
+            throw new Exception("Could not find performance counter " +
+                "instance name for current process. This is truly strange ...");
         }
     }
 }
