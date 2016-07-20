@@ -83,7 +83,7 @@ namespace TaskManager
                 {
                     if (proc.Exists(p => p.Id.ToString() == i.Name))
                     {
-                        Process pr = proc.First(p => p.Id.ToString() == i.Name);
+                        Process pr = proc.FirstOrDefault(p => p.Id.ToString() == i.Name);
                         i.SubItems[2].Text = string.Format("{0:n0}K",
                             pr.WorkingSet64/1000);
                     }
@@ -142,7 +142,7 @@ namespace TaskManager
 
         private void exitTaskManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         public void SetCpuUsage(string text, Process p)
